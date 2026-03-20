@@ -11,7 +11,7 @@ load_dotenv()
 
 # Use /tmp for cache on Vercel (serverless environments)
 if os.environ.get('VERCEL'):
-    CACHE_DIR = '/tmp/cache'
+    CACHE_DIR = '/tmp/cache'  # nosec B108
 else:
     CACHE_DIR = os.path.join(os.path.dirname(__file__), 'cache')
 
@@ -81,7 +81,8 @@ def set_cache(key: str, data: dict):
 
 def make_cache_key(prefix: str, **kwargs) -> str:
     key_str = prefix + "_" + "_".join(f"{k}={v}" for k, v in sorted(kwargs.items()) if v)
-    return hashlib.md5(key_str.encode()).hexdigest()
+    # Use sha256 to satisfy security scans, as MD5 is considered weak
+    return hashlib.sha256(key_str.encode()).hexdigest()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev_key')
