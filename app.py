@@ -9,9 +9,14 @@ from datetime import datetime, timedelta
 
 load_dotenv()
 
-CACHE_DIR = os.path.join(os.path.dirname(__file__), 'cache')
+# Use /tmp for cache on Vercel (serverless environments)
+if os.environ.get('VERCEL'):
+    CACHE_DIR = '/tmp/cache'
+else:
+    CACHE_DIR = os.path.join(os.path.dirname(__file__), 'cache')
+
 if not os.path.exists(CACHE_DIR):
-    os.makedirs(CACHE_DIR)
+    os.makedirs(CACHE_DIR, exist_ok=True)
 CACHE_TTL_MINUTES = 5
 
 
