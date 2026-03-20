@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dark Sky Weather</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <div id="app-background" class="bg-default"></div>
+    <div class="overlay-clouds"></div>
+
+    <div id="loadingOverlay" class="loading-overlay" aria-hidden="true">
+      <div class="spinner-ring"></div>
+    </div>
+
+    <div class="app-container">
+      <header class="top-nav">
+        <div class="logo">Weather forecast</div>
+
+        <div class="unit-toggle">
+          <button class="unit-btn active" data-unit="metric">°C</button>
+          <button class="unit-btn" data-unit="imperial">°F</button>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="location-display">
+          <i class="fas fa-location-dot"></i>
+          <span id="headerLocation">Loading Local...</span>
+        </div>
+
+        <div class="search-bar">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" id="cityInput" placeholder="Search City" />
+        </div>
+
+        <div class="date-picker-bar">
+          <i class="fas fa-calendar-days date-icon"></i>
+          <input type="date" id="datePicker" />
+        </div>
+      </header>
+
+      <div class="day-tabs-wrapper">
+        <div class="day-tabs" id="dayTabsContainer"></div>
+      </div>
+
+      <div class="main-grid">
+        <div class="left-column fade-in" id="currentSection">
+          <div class="current-weather-card" id="currentWeatherCard">
+            <div class="top-row">
+              <span class="time" id="currentTime">--:--</span>
+            </div>
+            <div class="bottom-row">
+              <div class="temp-section">
+                <h1 id="currentTemp">--°</h1>
+              </div>
+              <div class="desc-section">
+                <h3 id="currentDesc">--</h3>
+                <p>Feels like <span id="currentFeelsLike">--°</span></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="details-grid">
+            <div class="detail-card">
+              <div class="detail-title">
+                <i class="fas fa-wind text-muted-icon"></i> Wind
+              </div>
+              <div class="detail-value text-blue" id="currentWind">--</div>
+            </div>
+            <div class="detail-card">
+              <div class="detail-title">
+                <i class="fas fa-droplet text-muted-icon"></i> Humidity
+              </div>
+              <div class="detail-value text-blue" id="currentHumidity">--</div>
+            </div>
+            <div class="detail-card">
+              <div class="detail-title">
+                <i class="fas fa-eye text-muted-icon"></i> Visibility
+              </div>
+              <div class="detail-value text-blue" id="currentVisibility">
+                --
+              </div>
+            </div>
+            <div class="detail-card">
+              <div class="detail-title">
+                <svg
+                  class="text-muted-icon"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                  />
+                </svg>
+                Pressure
+              </div>
+              <div class="detail-value text-blue" id="currentPressure">--</div>
+            </div>
+            <div class="detail-card">
+              <div class="detail-title">
+                <i class="fas fa-sun text-muted-icon"></i> UV Index
+              </div>
+              <div class="detail-value text-blue" id="currentUv">--</div>
+            </div>
+            <div class="detail-card">
+              <div class="detail-title">
+                <i class="fas fa-temperature-half text-muted-icon"></i> Dew
+                Point
+              </div>
+              <div class="detail-value text-blue" id="currentDew">--</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="right-column fade-in">
+          <div class="hourly-card">
+            <h3 class="hourly-title">Hourly forecast</h3>
+            <div class="hourly-carousel-container">
+              <button class="nav-btn prev" id="hourlyPrevBtn">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+
+              <div class="hourly-scroll" id="hourlyContainer"></div>
+
+              <button class="nav-btn next" id="hourlyNextBtn">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="errorBox" class="error-toast" style="display: none"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>
