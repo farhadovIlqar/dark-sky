@@ -15,3 +15,5 @@ __pycache__/
 # Site specific
 cache/
 .vercel/
+
+.vercel
